@@ -1,6 +1,6 @@
-variable "container_registrys" {
+variable "container_registries" {
   description = <<EOT
-Map of container_registrys, attributes below
+Map of container_registries, attributes below
 Required:
     - location
     - name
@@ -41,17 +41,17 @@ EOT
     name                          = string
     resource_group_name           = string
     sku                           = string
-    admin_enabled                 = optional(bool, false)
+    admin_enabled                 = optional(bool) # Default: false
     anonymous_pull_enabled        = optional(bool)
     data_endpoint_enabled         = optional(bool)
-    export_policy_enabled         = optional(bool, true)
-    network_rule_bypass_option    = optional(string, "AzureServices")
-    public_network_access_enabled = optional(bool, true)
+    export_policy_enabled         = optional(bool)   # Default: true
+    network_rule_bypass_option    = optional(string) # Default: "AzureServices"
+    public_network_access_enabled = optional(bool)   # Default: true
     quarantine_policy_enabled     = optional(bool)
     retention_policy_in_days      = optional(number)
     tags                          = optional(map(string))
-    trust_policy_enabled          = optional(bool, false)
-    zone_redundancy_enabled       = optional(bool, false)
+    trust_policy_enabled          = optional(bool) # Default: false
+    zone_redundancy_enabled       = optional(bool) # Default: false
     encryption = optional(object({
       identity_client_id = string
       key_vault_key_id   = string
@@ -60,14 +60,14 @@ EOT
       location                  = string
       regional_endpoint_enabled = optional(bool)
       tags                      = optional(map(string))
-      zone_redundancy_enabled   = optional(bool, false)
+      zone_redundancy_enabled   = optional(bool) # Default: false
     }))
     identity = optional(object({
       identity_ids = optional(set(string))
       type         = string
     }))
     network_rule_set = optional(object({
-      default_action = optional(string, "Allow")
+      default_action = optional(string) # Default: "Allow"
       ip_rule = optional(object({
         action   = string
         ip_range = string

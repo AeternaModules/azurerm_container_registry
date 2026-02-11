@@ -1,5 +1,5 @@
-resource "azurerm_container_registry" "container_registrys" {
-  for_each = var.container_registrys
+resource "azurerm_container_registry" "container_registries" {
+  for_each = var.container_registries
 
   location                      = each.value.location
   name                          = each.value.name
