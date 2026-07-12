@@ -26,7 +26,7 @@ resource "azurerm_container_registry" "container_registries" {
   }
 
   dynamic "georeplications" {
-    for_each = each.value.georeplications != null ? [each.value.georeplications] : []
+    for_each = each.value.georeplications != null ? each.value.georeplications : []
     content {
       location                  = georeplications.value.location
       regional_endpoint_enabled = georeplications.value.regional_endpoint_enabled
@@ -48,7 +48,7 @@ resource "azurerm_container_registry" "container_registries" {
     content {
       default_action = network_rule_set.value.default_action
       dynamic "ip_rule" {
-        for_each = network_rule_set.value.ip_rule != null ? [network_rule_set.value.ip_rule] : []
+        for_each = network_rule_set.value.ip_rule != null ? network_rule_set.value.ip_rule : []
         content {
           action   = ip_rule.value.action
           ip_range = ip_rule.value.ip_range

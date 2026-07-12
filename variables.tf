@@ -56,40 +56,24 @@ EOT
       identity_client_id = string
       key_vault_key_id   = string
     }))
-    georeplications = optional(object({
+    georeplications = optional(list(object({
       location                  = string
       regional_endpoint_enabled = optional(bool)
       tags                      = optional(map(string))
       zone_redundancy_enabled   = optional(bool) # Default: false
-    }))
+    })))
     identity = optional(object({
       identity_ids = optional(set(string))
       type         = string
     }))
     network_rule_set = optional(object({
       default_action = optional(string) # Default: "Allow"
-      ip_rule = optional(object({
+      ip_rule = optional(list(object({
         action   = string
         ip_range = string
-      }))
+      })))
     }))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.container_registries : (
-        v.encryption == null || (can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", v.encryption.identity_client_id)))
-      )
-    ])
-    error_message = "must be a valid UUID"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.container_registries : (
-        v.retention_policy_in_days == null || (v.retention_policy_in_days >= 0 && v.retention_policy_in_days <= 365)
-      )
-    ])
-    error_message = "must be between 0 and 365"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_container_registry's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -142,6 +126,9 @@ EOT
   #   source:    [from commonids.ValidateUserAssignedIdentityID] !ok
   # path: identity.identity_ids[*]
   #   source:    [from commonids.ValidateUserAssignedIdentityID] err != nil
+  # path: encryption.identity_client_id
+  #   condition: can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", value))
+  #   message:   must be a valid UUID
   # path: encryption.key_vault_key_id
   #   source:    [from keyvault.ValidateNestedItemID] !ok
   # path: encryption.key_vault_key_id
@@ -152,6 +139,9 @@ EOT
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: network_rule_set.ip_rule.ip_range
   #   source:    [from validate.CIDR] re != nil && !re.MatchString(cidr)
+  # path: retention_policy_in_days
+  #   condition: value >= 0 && value <= 365
+  #   message:   must be between 0 and 365
   # path: network_rule_bypass_option
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: tags
