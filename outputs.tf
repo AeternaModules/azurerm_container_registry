@@ -1,3 +1,7 @@
+output "container_registries_id" {
+  description = "Map of id values across all container_registries, keyed the same as var.container_registries"
+  value       = { for k, v in azurerm_container_registry.container_registries : k => v.id }
+}
 output "container_registries_admin_enabled" {
   description = "Map of admin_enabled values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.admin_enabled }
