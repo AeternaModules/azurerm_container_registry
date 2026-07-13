@@ -19,8 +19,8 @@ Optional:
     - trust_policy_enabled
     - zone_redundancy_enabled
     - encryption (block):
-        - identity_client_id (required)
-        - key_vault_key_id (required)
+        - identity_client_id (optional)
+        - key_vault_key_id (optional)
     - georeplications (block):
         - location (required)
         - regional_endpoint_enabled (optional)
@@ -32,8 +32,8 @@ Optional:
     - network_rule_set (block):
         - default_action (optional)
         - ip_rule (optional, block):
-            - action (required)
-            - ip_range (required)
+            - action (optional)
+            - ip_range (optional)
 EOT
 
   type = map(object({
@@ -41,38 +41,38 @@ EOT
     name                          = string
     resource_group_name           = string
     sku                           = string
-    admin_enabled                 = optional(bool) # Default: false
+    admin_enabled                 = optional(bool)
     anonymous_pull_enabled        = optional(bool)
     data_endpoint_enabled         = optional(bool)
-    export_policy_enabled         = optional(bool)   # Default: true
-    network_rule_bypass_option    = optional(string) # Default: "AzureServices"
-    public_network_access_enabled = optional(bool)   # Default: true
+    export_policy_enabled         = optional(bool)
+    network_rule_bypass_option    = optional(string)
+    public_network_access_enabled = optional(bool)
     quarantine_policy_enabled     = optional(bool)
     retention_policy_in_days      = optional(number)
     tags                          = optional(map(string))
-    trust_policy_enabled          = optional(bool) # Default: false
-    zone_redundancy_enabled       = optional(bool) # Default: false
-    encryption = optional(object({
-      identity_client_id = string
-      key_vault_key_id   = string
-    }))
+    trust_policy_enabled          = optional(bool)
+    zone_redundancy_enabled       = optional(bool)
+    encryption = optional(list(object({
+      identity_client_id = optional(string)
+      key_vault_key_id   = optional(string)
+    })))
     georeplications = optional(list(object({
       location                  = string
       regional_endpoint_enabled = optional(bool)
       tags                      = optional(map(string))
-      zone_redundancy_enabled   = optional(bool) # Default: false
+      zone_redundancy_enabled   = optional(bool)
     })))
     identity = optional(object({
       identity_ids = optional(set(string))
       type         = string
     }))
-    network_rule_set = optional(object({
-      default_action = optional(string) # Default: "Allow"
+    network_rule_set = optional(list(object({
+      default_action = optional(string)
       ip_rule = optional(list(object({
-        action   = string
-        ip_range = string
+        action   = optional(string)
+        ip_range = optional(string)
       })))
-    }))
+    })))
   }))
   # --- Unconfirmed validation candidates, derived from azurerm_container_registry's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,

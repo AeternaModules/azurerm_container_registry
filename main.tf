@@ -18,7 +18,7 @@ resource "azurerm_container_registry" "container_registries" {
   zone_redundancy_enabled       = each.value.zone_redundancy_enabled
 
   dynamic "encryption" {
-    for_each = each.value.encryption != null ? [each.value.encryption] : []
+    for_each = each.value.encryption != null ? each.value.encryption : []
     content {
       identity_client_id = encryption.value.identity_client_id
       key_vault_key_id   = encryption.value.key_vault_key_id
@@ -44,7 +44,7 @@ resource "azurerm_container_registry" "container_registries" {
   }
 
   dynamic "network_rule_set" {
-    for_each = each.value.network_rule_set != null ? [each.value.network_rule_set] : []
+    for_each = each.value.network_rule_set != null ? each.value.network_rule_set : []
     content {
       default_action = network_rule_set.value.default_action
       dynamic "ip_rule" {
