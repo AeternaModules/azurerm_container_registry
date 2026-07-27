@@ -19,6 +19,10 @@ output "container_registries_anonymous_pull_enabled" {
   description = "Map of anonymous_pull_enabled values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.anonymous_pull_enabled if v.anonymous_pull_enabled != null }
 }
+output "container_registries_azuread_authentication_as_arm_policy_enabled" {
+  description = "Map of azuread_authentication_as_arm_policy_enabled values across all container_registries, keyed the same as var.container_registries"
+  value       = { for k, v in azurerm_container_registry.container_registries : k => v.azuread_authentication_as_arm_policy_enabled if v.azuread_authentication_as_arm_policy_enabled != null }
+}
 output "container_registries_data_endpoint_enabled" {
   description = "Map of data_endpoint_enabled values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.data_endpoint_enabled if v.data_endpoint_enabled != null }
@@ -55,6 +59,10 @@ output "container_registries_name" {
   description = "Map of name values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.name if v.name != null && length(v.name) > 0 }
 }
+output "container_registries_network_rule_bypass_for_tasks_enabled" {
+  description = "Map of network_rule_bypass_for_tasks_enabled values across all container_registries, keyed the same as var.container_registries"
+  value       = { for k, v in azurerm_container_registry.container_registries : k => v.network_rule_bypass_for_tasks_enabled if v.network_rule_bypass_for_tasks_enabled != null }
+}
 output "container_registries_network_rule_bypass_option" {
   description = "Map of network_rule_bypass_option values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.network_rule_bypass_option if v.network_rule_bypass_option != null && length(v.network_rule_bypass_option) > 0 }
@@ -78,6 +86,10 @@ output "container_registries_resource_group_name" {
 output "container_registries_retention_policy_in_days" {
   description = "Map of retention_policy_in_days values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.retention_policy_in_days if v.retention_policy_in_days != null }
+}
+output "container_registries_role_assignment_mode" {
+  description = "Map of role_assignment_mode values across all container_registries, keyed the same as var.container_registries"
+  value       = { for k, v in azurerm_container_registry.container_registries : k => v.role_assignment_mode if v.role_assignment_mode != null && length(v.role_assignment_mode) > 0 }
 }
 output "container_registries_sku" {
   description = "Map of sku values across all container_registries, keyed the same as var.container_registries"

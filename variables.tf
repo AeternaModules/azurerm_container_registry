@@ -9,12 +9,15 @@ Required:
 Optional:
     - admin_enabled
     - anonymous_pull_enabled
+    - azuread_authentication_as_arm_policy_enabled
     - data_endpoint_enabled
     - export_policy_enabled
+    - network_rule_bypass_for_tasks_enabled
     - network_rule_bypass_option
     - public_network_access_enabled
     - quarantine_policy_enabled
     - retention_policy_in_days
+    - role_assignment_mode
     - tags
     - trust_policy_enabled
     - zone_redundancy_enabled
@@ -37,21 +40,24 @@ Optional:
 EOT
 
   type = map(object({
-    location                      = string
-    name                          = string
-    resource_group_name           = string
-    sku                           = string
-    admin_enabled                 = optional(bool)
-    anonymous_pull_enabled        = optional(bool)
-    data_endpoint_enabled         = optional(bool)
-    export_policy_enabled         = optional(bool)
-    network_rule_bypass_option    = optional(string)
-    public_network_access_enabled = optional(bool)
-    quarantine_policy_enabled     = optional(bool)
-    retention_policy_in_days      = optional(number)
-    tags                          = optional(map(string))
-    trust_policy_enabled          = optional(bool)
-    zone_redundancy_enabled       = optional(bool)
+    location                                     = string
+    name                                         = string
+    resource_group_name                          = string
+    sku                                          = string
+    tags                                         = optional(map(string))
+    role_assignment_mode                         = optional(string)
+    retention_policy_in_days                     = optional(number)
+    quarantine_policy_enabled                    = optional(bool)
+    public_network_access_enabled                = optional(bool)
+    network_rule_bypass_option                   = optional(string)
+    export_policy_enabled                        = optional(bool)
+    trust_policy_enabled                         = optional(bool)
+    data_endpoint_enabled                        = optional(bool)
+    azuread_authentication_as_arm_policy_enabled = optional(bool)
+    anonymous_pull_enabled                       = optional(bool)
+    admin_enabled                                = optional(bool)
+    network_rule_bypass_for_tasks_enabled        = optional(bool)
+    zone_redundancy_enabled                      = optional(bool)
     encryption = optional(list(object({
       identity_client_id = optional(string)
       key_vault_key_id   = optional(string)
@@ -138,6 +144,6 @@ EOT
     ])
     error_message = "[from tags.Validate: invalid when len(value) > 50]"
   }
-  # Note: 21 additional provider-side validators are enforced at apply time but not mirrored as validation{} blocks here (bespoke or non-mechanically-translatable).
+  # Note: 22 additional provider-side validators are enforced at apply time but not mirrored as validation{} blocks here (bespoke or non-mechanically-translatable).
 }
 

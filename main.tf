@@ -1,21 +1,24 @@
 resource "azurerm_container_registry" "container_registries" {
   for_each = var.container_registries
 
-  location                      = each.value.location
-  name                          = each.value.name
-  resource_group_name           = each.value.resource_group_name
-  sku                           = each.value.sku
-  admin_enabled                 = each.value.admin_enabled
-  anonymous_pull_enabled        = each.value.anonymous_pull_enabled
-  data_endpoint_enabled         = each.value.data_endpoint_enabled
-  export_policy_enabled         = each.value.export_policy_enabled
-  network_rule_bypass_option    = each.value.network_rule_bypass_option
-  public_network_access_enabled = each.value.public_network_access_enabled
-  quarantine_policy_enabled     = each.value.quarantine_policy_enabled
-  retention_policy_in_days      = each.value.retention_policy_in_days
-  tags                          = each.value.tags
-  trust_policy_enabled          = each.value.trust_policy_enabled
-  zone_redundancy_enabled       = each.value.zone_redundancy_enabled
+  location                                     = each.value.location
+  name                                         = each.value.name
+  resource_group_name                          = each.value.resource_group_name
+  sku                                          = each.value.sku
+  tags                                         = each.value.tags
+  role_assignment_mode                         = each.value.role_assignment_mode
+  retention_policy_in_days                     = each.value.retention_policy_in_days
+  quarantine_policy_enabled                    = each.value.quarantine_policy_enabled
+  public_network_access_enabled                = each.value.public_network_access_enabled
+  network_rule_bypass_option                   = each.value.network_rule_bypass_option
+  export_policy_enabled                        = each.value.export_policy_enabled
+  trust_policy_enabled                         = each.value.trust_policy_enabled
+  data_endpoint_enabled                        = each.value.data_endpoint_enabled
+  azuread_authentication_as_arm_policy_enabled = each.value.azuread_authentication_as_arm_policy_enabled
+  anonymous_pull_enabled                       = each.value.anonymous_pull_enabled
+  admin_enabled                                = each.value.admin_enabled
+  network_rule_bypass_for_tasks_enabled        = each.value.network_rule_bypass_for_tasks_enabled
+  zone_redundancy_enabled                      = each.value.zone_redundancy_enabled
 
   dynamic "encryption" {
     for_each = each.value.encryption != null ? each.value.encryption : []
