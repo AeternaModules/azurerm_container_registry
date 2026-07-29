@@ -99,10 +99,6 @@ output "container_registries_tags" {
   description = "Map of tags values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.tags if v.tags != null && length(v.tags) > 0 }
 }
-output "container_registries_trust_policy_enabled" {
-  description = "Map of trust_policy_enabled values across all container_registries, keyed the same as var.container_registries"
-  value       = { for k, v in azurerm_container_registry.container_registries : k => v.trust_policy_enabled if v.trust_policy_enabled != null }
-}
 output "container_registries_zone_redundancy_enabled" {
   description = "Map of zone_redundancy_enabled values across all container_registries, keyed the same as var.container_registries"
   value       = { for k, v in azurerm_container_registry.container_registries : k => v.zone_redundancy_enabled if v.zone_redundancy_enabled != null }

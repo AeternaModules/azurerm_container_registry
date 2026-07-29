@@ -5,14 +5,13 @@ resource "azurerm_container_registry" "container_registries" {
   name                                         = each.value.name
   resource_group_name                          = each.value.resource_group_name
   sku                                          = each.value.sku
-  tags                                         = each.value.tags
   role_assignment_mode                         = each.value.role_assignment_mode
   retention_policy_in_days                     = each.value.retention_policy_in_days
   quarantine_policy_enabled                    = each.value.quarantine_policy_enabled
   public_network_access_enabled                = each.value.public_network_access_enabled
   network_rule_bypass_option                   = each.value.network_rule_bypass_option
   export_policy_enabled                        = each.value.export_policy_enabled
-  trust_policy_enabled                         = each.value.trust_policy_enabled
+  tags                                         = each.value.tags
   data_endpoint_enabled                        = each.value.data_endpoint_enabled
   azuread_authentication_as_arm_policy_enabled = each.value.azuread_authentication_as_arm_policy_enabled
   anonymous_pull_enabled                       = each.value.anonymous_pull_enabled
@@ -31,10 +30,10 @@ resource "azurerm_container_registry" "container_registries" {
   dynamic "georeplications" {
     for_each = each.value.georeplications != null ? each.value.georeplications : []
     content {
-      location                  = georeplications.value.location
-      regional_endpoint_enabled = georeplications.value.regional_endpoint_enabled
-      tags                      = georeplications.value.tags
-      zone_redundancy_enabled   = georeplications.value.zone_redundancy_enabled
+      global_endpoint_routing_enabled = georeplications.value.global_endpoint_routing_enabled
+      location                        = georeplications.value.location
+      tags                            = georeplications.value.tags
+      zone_redundancy_enabled         = georeplications.value.zone_redundancy_enabled
     }
   }
 

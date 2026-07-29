@@ -19,14 +19,13 @@ Optional:
     - retention_policy_in_days
     - role_assignment_mode
     - tags
-    - trust_policy_enabled
     - zone_redundancy_enabled
     - encryption (block):
         - identity_client_id (optional)
         - key_vault_key_id (optional)
     - georeplications (block):
+        - global_endpoint_routing_enabled (required)
         - location (required)
-        - regional_endpoint_enabled (optional)
         - tags (optional)
         - zone_redundancy_enabled (optional)
     - identity (block):
@@ -44,14 +43,13 @@ EOT
     name                                         = string
     resource_group_name                          = string
     sku                                          = string
-    tags                                         = optional(map(string))
     role_assignment_mode                         = optional(string)
     retention_policy_in_days                     = optional(number)
     quarantine_policy_enabled                    = optional(bool)
     public_network_access_enabled                = optional(bool)
     network_rule_bypass_option                   = optional(string)
     export_policy_enabled                        = optional(bool)
-    trust_policy_enabled                         = optional(bool)
+    tags                                         = optional(map(string))
     data_endpoint_enabled                        = optional(bool)
     azuread_authentication_as_arm_policy_enabled = optional(bool)
     anonymous_pull_enabled                       = optional(bool)
@@ -63,10 +61,10 @@ EOT
       key_vault_key_id   = optional(string)
     })))
     georeplications = optional(list(object({
-      location                  = string
-      regional_endpoint_enabled = optional(bool)
-      tags                      = optional(map(string))
-      zone_redundancy_enabled   = optional(bool)
+      global_endpoint_routing_enabled = bool
+      location                        = string
+      tags                            = optional(map(string))
+      zone_redundancy_enabled         = optional(bool)
     })))
     identity = optional(object({
       identity_ids = optional(set(string))
